@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import logo from '../images/icongroupomanianoir.png';
+import Footer from '../components/Footer';
+
+
+const Login = () => {
+    let navigate = useNavigate(); 
+    const routeChange = () =>{ 
+  let path = `/Inscription`; 
+  navigate(path);
+    }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const history = useNavigate();
+  const userHasAuthenticated = null;
+  let token = null
+  const Auth = async (e) => {
+    e.preventDefault();
+    try {
+    const { data } = await axios.post("http://localhost:5000/api/auth/signin", {
+        email: email,
+        password: password,
+      })      
+      .then(res => {
+        console.log(res.data)
+        window.localStorage.setItem("token", res.data.token);
+        window.localStorage.setItem("ID", res.data.id);
+        window.localStorage.setItem("Nom", res.data.nom);
+        window.localStorage.setItem("Prenom", res.data.prenom);
+        navigate("/dashboard");
+      })
+    } catch (error) {
+      if (error.responsecode === 404) {
+        console.log(error.response);
+      }
+    }
+  };
+  return (
+    <section className="hero has-background-grey-light is-fullheight is-mobile">
+      <nav className="navbar ml-auto mr-auto" role="navigation" aria-label="main navigation">
+        <div className="navbar-brand">
+          <a className="" href="http://localhost:3000">
+            <img className=".container-image " width="150"
+              src={logo}
+              alt="Logo Groupomania"
+            />
+          </a>
+        </div>
+      </nav>
+          <div className="columns is-centered is-mobile">
+                                    
+            <div className="column is-4-desktop is-9-mobile ">
+              <form className="box">
+                <p className="has-text-centered">{msg}</p>
+                <div className="field">
+                                                      
+                  <label className="label">Email</label>
+                  <div className="controls">
+                                                            
+                    <input
+                      type="text"
+                      className="input"
+                      placeholder="Username"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                                                      
+                  <label className="label">Mot de passe</label>
+                                                      
+                  <div className="controls">
+                    <input
+                      type="password"
+                      className="input"
+                      placeholder="******"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                                                        
+                  </div>
+                </div>
+                <div className="field">
+                  <button className="button is-link is-fullwidth" onClick={Auth}>
+                    Connexion
+                  </button>
+                  
+                                                      
+                  <button className="button is-info is-fullwidth" onClick={routeChange}>
+                    Inscription
+                  </button>
+                </div>
+                                                            
+                
+              </form>
+                                      
+            </div>
+                                
+          </div>
+                          
+                    
+              
+    <footer>
+        <Footer/>
+    </footer>
+    </section>
+  );
+};
+export default Login;
