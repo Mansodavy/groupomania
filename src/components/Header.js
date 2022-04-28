@@ -31,6 +31,9 @@ function Header() {
           Menu
         </a>
         <div className="navbar-dropdown is-boxed mr-10">
+          <a className="navbar-item" href="http://localhost:3000/Dashboard">
+            Dashboard
+          </a>
           <a className="navbar-item" href="http://localhost:3000/Profil">
             Profil
           </a>
@@ -39,6 +42,9 @@ function Header() {
           </a>
           <a className="navbar-item" href="http://localhost:3000/Groupes">
             Groupes
+          </a>
+          <a className="navbar-item" href="http://localhost:3000/CreatePost">
+            Crée un post
           </a>
         </div>
       </div>
