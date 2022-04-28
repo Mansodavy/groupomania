@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Home'
 import Dashboard from './Dashboard';
 import Profil from './Profil';
+import CreatePosts from './CreatePosts';
 // HERE FOR ROUTING WE HAVE TO DEFINE PATHS SO 
 // THROUGH REACT-ROUTER WE CAN ROUTE AND GIVE THE PATH TO INDIVIDUAL COMPONENTS
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/Accueil" element={<Home/>} />
           <Route path="/Dashboard" element={<Dashboard/>} />
           <Route path="/Profil" element={<Profil/>} />
+          <Route path="/CreatePost" element={<CreatePosts/>} />
         </Routes>
       </div>
     </Router>
