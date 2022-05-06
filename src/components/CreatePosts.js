@@ -20,8 +20,6 @@ const NewCreatepost = (props) => {
 		});
 		const data = new FormData();
 		data.append('image', newPic);
-		data.append('nomcreateur', nom);
-		data.append('prenomcreateur', prenom);
     data.append('messagepost', messagepost);
     data.append('nomposte', nomposte);
 		console.log(data);
@@ -68,30 +66,6 @@ const NewCreatepost = (props) => {
                       placeholder=""
                       value={nomposte}
                       onChange={(e) => setnomposte(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="field mt-5">
-                  <label className="label">Nom du createur du poste</label>
-                  <div className="controls">
-                    <input
-                      type="text"
-                      className="input"
-                      placeholder=""
-                      value={nom}
-                      onChange={(e) => setNom(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="field mt-5">
-                  <label className="label">Prenom</label>
-                  <div className="controls">
-                    <input
-                      type="text"
-                      className="input"
-                      placeholder=""
-                      value={prenom}
-                      onChange={(e) => setPrenom(e.target.value)}
                     />
                   </div>
                 </div>
