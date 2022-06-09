@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Footer from '../components/Footer'
+import Footer from '../View/Footer'
 import logo from '../images/icongroupomanianoir.png';
 const Register = () => {
     const [nom, setNom] = useState('');

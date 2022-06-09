@@ -1,81 +1,106 @@
-import { render } from '@testing-library/react';
-import React, { Component } from 'react'
-import 'react-router-dom'
+import { render } from "@testing-library/react";
+import React, { Component } from "react";
+import "react-router-dom";
 import axios from "axios";
+import { useNavigate, useHistory, Link } from "react-router-dom";
 const urlPosts = "http://localhost:5000/api/posts";
-
 class Postinfo extends Component {
-
   state = {
-      posts: []
-  }
+    posts: [],
+  };
 
   componentDidMount() {
-      this.getPosts();
+    this.getPosts();
   }
 
   getPosts() {
-
-      axios.get('http://localhost:5000/api/posts', {
+    axios
+      .get("http://localhost:5000/api/posts", {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
       })
-          .then(res => {
-              this.setState({ posts: res.data });
-              console.log(res.data);
-          })
-          .catch(err => {
-              console.log(err);
-              window.alert('Une erreur ');
-          })
+      .then((res) => {
+        this.setState({ posts: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+        window.location.replace("/Connexion");
+      });
   }
 
-
-
-render(){
-  let { posts } = this.state;
-  return (
-    <div className="is-align-self-auto">
-        { posts ? (posts.map(post => {
+  render() {
+    let { posts } = this.state;
+    return (
+      <div className="is-align-self-auto has-background-grey-light">
+        {posts ? (
+          posts.map((post) => {
+            console.log(post.id);
             return (
-              <section className="">
-              <br/>
-              <div class="columns is-mobile   " >
-              <div class="column is-3 ml-5 is-clickable">
-              <div class="card mr-3  ">
-              <div class="card-image ">
-                <figure class="image is-3by2">
-                  <img src={post.imageUrl} alt="Placeholder image"/>
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-left">
-                    <figure class="image is-48x48">
-                      <img src={post.user.imageUrl} alt="Placeholder image"/>
-                    </figure>
+              <section className={post.id}>
+                <br />
+                <Link
+                  to={{
+                  pathname: "/posts/" + post.id,
+                  }}>
+                <div class="columns is-mobile  ">
+
+                  <div class="column ml-6 mr-6 is-clickable card">
+                    <article class="media">
+                      <figure class="media-left">
+                        <p class="image is-64x64">
+                          <img src={post.user.imageUrl} />
+                        </p>
+                        <strong>{post.user.nom} </strong>
+                        <br />
+                        <strong>{post.user.prenom} </strong>
+                      </figure>
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            <strong>{post.nomposte}</strong>
+                            <br />
+                            {post.messagepost}
+                          </p>
+                        </div>
+                        <nav class="level is-mobile">
+                          <div class="level-left">
+                            <a class="level-item">
+                              <span class="icon is-small">
+                                <i class="fas fa-reply"></i>
+                              </span>
+                            </a>
+                            <a class="level-item">
+                              <span class="icon is-small">
+                                <i class="fas fa-retweet"></i>
+                              </span>
+                            </a>
+                            <a class="level-item">
+                              <span class="icon is-small">
+                                <i class="fas fa-heart"></i>
+                              </span>
+                            </a>
+                          </div>
+                        </nav>
+                      </div>
+                    </article>
+                    <br />
+                    
                   </div>
-                  <div class="media-content">
-                    <h1 class="title is-4">{post.nomposte}</h1>
-                    <p class="subtitle is-10">{post.user.nom} {post.user.prenom} </p>
-                  </div>
-                </div>
-            
-                <div class="content">
-                  {post.messagepost}
-                </div>
-              </div>
-            </div>
-              </div>
-                </div>
-                
-            <br/>
-            <br/>
-            </section>
-            )
-        })) : (
-            <p>Loading...</p>
+
+                 </div>
+                 </Link>
+
+                <br />
+                <br />
+              </section>
+            );
+          })
+        ) : (
+          <p>Loading...</p>
         )}
-    </div>
-  )
-    }
+      </div>
+    );
   }
+}
 export default Postinfo;

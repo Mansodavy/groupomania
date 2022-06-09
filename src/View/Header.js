@@ -4,7 +4,7 @@ import logo from '../images/icongroupomanianoir.png';
 
 function Header() {
     return (
-<nav className="navbar is-transparent">
+<nav className="navbar is-transparent has-background-grey-light">
     <div className="navbar-brand ">
           <a className="" href="http://localhost:3000">
             <img className=".container-image ml-5 mr-5 mt-2" width="100"

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Footer from "../View/Footer";
+import Header from "../View/Header";
 
 const NewCreatepost = (props) => {
 	const [newPic, setNewPic] = useState();
@@ -15,7 +15,7 @@ const NewCreatepost = (props) => {
 	const createPost = (e) => {
 		e.preventDefault();
 
-		const myHeaders = new Headers({
+		const Head = new Headers({
 			Authorization: 'Bearer ' + localStorage.getItem('token'),
 		});
 		const data = new FormData();
@@ -25,7 +25,7 @@ const NewCreatepost = (props) => {
 		console.log(data);
 		fetch('http://localhost:5000/api/posts', {
 			method: 'POST',
-			headers: myHeaders,
+			headers: Head,
 			body: data,
 		}).then((response) => console.log(response));
 		props.onCancel();
