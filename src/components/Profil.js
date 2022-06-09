@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
+import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
-import Header from "../components/Header";
+import Header from "../View/Header";
 const Register = () => {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -16,31 +16,17 @@ const Register = () => {
     let path = `/Connexion`;
     navigate(path);
   };
-
-  const Register = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/api/auth/signup", {
-        nom: nom,
-        prenom: prenom,
-        email: email,
-        password: password,
-        roles: ["user"],
-      });
-      navigate("/Connexion");
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
-      }
-    }
-  };
+ let id = localStorage.getItem("ID");
   const getOneUser = async (e) => {
     e.preventDefault();
     let id = window.localStorage.getItem("ID");
     try {
         const request = await axios.get(
-            "http://localhost:5000/api/user/getOneUser/" + id,
-            {}
+            "http://localhost:5000/api/user/getOneUser/",
+            {
+              headers: {
+                'Authorization': `Bearer ${localStorage.token}` 
+              }}
         );
         console.log(request.data);
         window.localStorage.setItem("imageUrl", request.data.imageUrl);
@@ -49,6 +35,39 @@ const Register = () => {
             setMsg(error.response.data.msg);
         }
     }
+};
+const deleteprofil = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.delete("http://localhost:5000/api/user/",
+      {headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      }}
+    );
+    window.localStorage.clear();
+    alert("Votre compte a bien été supprimé");
+    navigate("/Connexion");
+  } catch (error) {
+    if (error.response) {
+      setMsg(error.response.data.msg);
+    }
+  }
+};
+const Editprofil = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.put("http://localhost:5000/api/user/editprofil/", {
+      nom: nom,
+      prenom: prenom,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}` 
+      }});
+  } catch (error) {
+    if (error.response) {
+      setMsg(error.response.data.msg);
+    }
+  }
 };
 window.onload = getOneUser;
 
@@ -61,62 +80,46 @@ window.onload = getOneUser;
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-4-desktop">
-              <form onSubmit={Register} className="box">
+              <form onSubmit={Editprofil} className="box">
                 <label className="label">Modifier le profil</label>
                 <div className="field mt-5">
                   <figure className="image is-128x128 mx-auto">
                     <img className="is-rounded" src={window.localStorage.imageUrl} />
                   </figure>
                   <br />
-                  <label className="label">Modifier L'image</label>
-                  <div className="controls mx-auto">
-                    <div className="file has-name is-boxed mx-auto">
-                      <label className="file-label mx-auto">
-                        <input
-                          className="file-input"
-                          type="file"
-                          name="resume"
-                        />
-                        <span className="file-cta">
-                          <span className="file-icon">
-                            <i className="fas fa-upload"></i>
-                          </span>
-                          <span className="file-label">Choose a file…</span>
-                        </span>
-                        <span className="file-name">
-                          Screen Shot 2017-07-29 at 15.54.25.png
-                        </span>
-                      </label>
-                    </div>
-                  </div>
                 </div>
                 <div className="field mt-5">
-                  <label className="label">Mot de passe</label>
+                  <label className="label">Nom</label>
                   <div className="controls">
                     <input
-                      type="password"
+                      type="text"
                       className="input"
-                      placeholder="******"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Charles"
+                      value={nom}
+                      onChange={(e) => setNom(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="field mt-5">
-                  <label className="label">Confirmation</label>
+                  <label className="label">Prénom</label>
                   <div className="controls">
                     <input
-                      type="password"
+                      type="text"
                       className="input"
-                      placeholder="******"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Jean"
+                      value={prenom}
+                      onChange={(e) => setPrenom(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="field mt-5">
                   <button className="button is-link is-fullwidth">
                     Modifier les informations
+                  </button>
+                </div>
+                <div className="field mt-5">
+                  <button onClick={deleteprofil} className="button is-danger is-fullwidth">
+                    Supprimer le compte
                   </button>
                 </div>
               </form>

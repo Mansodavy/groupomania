@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from '../images/icongroupomanianoir.png';
-import Footer from '../components/Footer';
+import Footer from '../View/Footer';
 
 
 const Login = () => {
@@ -18,6 +18,7 @@ const Login = () => {
   const userHasAuthenticated = null;
   let token = null
   const Auth = async (e) => {
+    
     e.preventDefault();
     try {
     const { data } = await axios.post("http://localhost:5000/api/auth/signin", {
