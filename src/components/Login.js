@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from '../images/icongroupomanianoir.png';
 import Footer from '../View/Footer';
+import AuthService from "../Middleware/authservice";
 
 
 const Login = () => {
@@ -18,38 +19,36 @@ const Login = () => {
   const userHasAuthenticated = null;
   let token = null
   const Auth = async (e) => {
-    
+
     e.preventDefault();
     try {
     const { data } = await axios.post("http://localhost:5000/api/auth/signin", {
         email: email,
         password: password,
       })      
-      .then(res => {
-        console.log(res.data)
-        window.localStorage.setItem("token", res.data.token);
-        window.localStorage.setItem("ID", res.data.id);
-        window.localStorage.setItem("Nom", res.data.nom);
-        window.localStorage.setItem("Prenom", res.data.prenom);
-        navigate("/dashboard");
-      })
+      .then(response => {
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          navigate("/Dashboard");
+          window.location.reload();
+        }
+        return response.data;
+      
+      });
     } catch (error) {
-      if (error.responsecode === 404) {
-        console.log(error.response);
+      if (error.responsecode == 404) {
+        alert("Utilisateur Inconnu");
       }
     }
   };
+  const user = AuthService.getCurrentUser();
+  if (user) {
+    navigate("/Dashboard");
+  } 
+  
   return (
     <section className="hero has-background-grey-light is-fullheight is-mobile">
       <nav className="navbar ml-auto mr-auto" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-          <a className="" href="http://localhost:3000">
-            <img className=".container-image " width="150"
-              src={logo}
-              alt="Logo Groupomania"
-            />
-          </a>
-        </div>
       </nav>
           <div className="columns is-centered is-mobile">
                                     
@@ -64,7 +63,7 @@ const Login = () => {
                     <input
                       type="text"
                       className="input"
-                      placeholder="Username"
+                      placeholder="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -95,6 +94,7 @@ const Login = () => {
                     Inscription
                   </button>
                 </div>
+                
                                                             
                 
               </form>

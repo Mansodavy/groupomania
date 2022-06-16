@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../Middleware/authservice";
 import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
 import Header from "../View/Header";
 const Register = () => {
+  
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
@@ -12,38 +14,20 @@ const Register = () => {
   const [msg, setMsg] = useState("");
   const history = useNavigate();
   let navigate = useNavigate();
+  const user = AuthService.getCurrentUser();
   const routeChange = () => {
     let path = `/Connexion`;
     navigate(path);
   };
- let id = localStorage.getItem("ID");
-  const getOneUser = async (e) => {
-    e.preventDefault();
-    let id = window.localStorage.getItem("ID");
-    try {
-        const request = await axios.get(
-            "http://localhost:5000/api/user/getOneUser/",
-            {
-              headers: {
-                'Authorization': `Bearer ${localStorage.token}` 
-              }}
-        );
-        console.log(request.data);
-        window.localStorage.setItem("imageUrl", request.data.imageUrl);
-    } catch (error) {
-        if (error.response) {
-            setMsg(error.response.data.msg);
-        }
-    }
-};
 const deleteprofil = async (e) => {
   e.preventDefault();
   try {
     await axios.delete("http://localhost:5000/api/user/",
       {headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${user.token}`
       }}
     );
+    
     window.localStorage.clear();
     alert("Votre compte a bien été supprimé");
     navigate("/Connexion");
@@ -61,7 +45,7 @@ const Editprofil = async (e) => {
       prenom: prenom,
     }, {
       headers: {
-        'Authorization': `Bearer ${localStorage.token}` 
+        'Authorization': `Bearer ${user.token}` 
       }});
   } catch (error) {
     if (error.response) {
@@ -69,25 +53,17 @@ const Editprofil = async (e) => {
     }
   }
 };
-window.onload = getOneUser;
 
     
 
   return (
     <section className="hero has-background is-fullheight is-fullwidth has-background-grey-light ">
-      <Header />
       <div className="hero-body">
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-4-desktop">
               <form onSubmit={Editprofil} className="box">
                 <label className="label">Modifier le profil</label>
-                <div className="field mt-5">
-                  <figure className="image is-128x128 mx-auto">
-                    <img className="is-rounded" src={window.localStorage.imageUrl} />
-                  </figure>
-                  <br />
-                </div>
                 <div className="field mt-5">
                   <label className="label">Nom</label>
                   <div className="controls">

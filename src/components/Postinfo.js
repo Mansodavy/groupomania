@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import React, { Component } from "react";
 import "react-router-dom";
 import axios from "axios";
+import authHeader from '../Middleware/authHeader';
 import { useNavigate, useHistory, Link } from "react-router-dom";
 const urlPosts = "http://localhost:5000/api/posts";
 class Postinfo extends Component {
@@ -14,10 +15,11 @@ class Postinfo extends Component {
   }
 
   getPosts() {
+    const user = JSON.parse(localStorage.getItem('user'));
     axios
       .get("http://localhost:5000/api/posts", {
         headers: {
-          Authorization: `Bearer ${localStorage.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       })
       .then((res) => {
