@@ -3,13 +3,13 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import logo from '../images/icongroupomanianoir.png';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link,  withRouter } from "react-router-dom";
 import Footer from '../View/Footer';
 import AuthService from "../Middleware/authservice"; 
 
 //Nouvelle page en cours de création
-  
 const required = value => {
+  
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -19,9 +19,10 @@ const required = value => {
   }
 };
 
-export default class Logins extends Component {
+class Logins extends Component {
   
   constructor(props) {
+    
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -35,6 +36,7 @@ export default class Logins extends Component {
     };
     
   }
+  
   onChangeEmail(e) {
     this.setState({
       email: e.target.value
@@ -58,7 +60,6 @@ export default class Logins extends Component {
       AuthService.login(this.state.email, this.state.password).then(
         () => {
           this.props.history.push("/");
-          window.location.reload();
         },
         error => {
           const resMessage =
@@ -175,5 +176,8 @@ export default class Logins extends Component {
     </footer>
     </section>
   );
+
   }
+  
 }
+export default (Logins);

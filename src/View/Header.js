@@ -32,16 +32,10 @@ function Header() {
         </a>
         <div className="navbar-dropdown is-boxed mr-10">
           <a className="navbar-item" href="http://localhost:3000/Dashboard">
-            Dashboard
+            Liste des postes
           </a>
           <a className="navbar-item" href="http://localhost:3000/Profil">
             Profil
-          </a>
-          <a className="navbar-item" href="http://localhost:3000/Messages">
-            Messages
-          </a>
-          <a className="navbar-item" href="http://localhost:3000/Groupes">
-            Groupes
           </a>
           <a className="navbar-item" href="http://localhost:3000/CreatePost">
             Crée un post

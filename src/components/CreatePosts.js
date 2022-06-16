@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../View/Footer";
 import Header from "../View/Header";
+import authHeader from "../Middleware/authHeader";
 
 const NewCreatepost = (props) => {
 	const [newPic, setNewPic] = useState();
@@ -23,18 +24,23 @@ const NewCreatepost = (props) => {
     data.append('messagepost', messagepost);
     data.append('nomposte', nomposte);
 		console.log(data);
+    if (newPic === undefined) {
+      alert("Veuillez choisir une image");
+      
+    }
+    else{
 		fetch('http://localhost:5000/api/posts', {
 			method: 'POST',
-			headers: Head,
+      headers :  authHeader (),
 			body: data,
 		}).then((response) => console.log(response));
 		props.onCancel();
+  }
 	};
     
   return (
       
     <section className="hero has-background is-fullheight is-fullwidth has-background-grey-light ">
-      <Header />
       <div className="hero-body">
         <div className="container">
           <div className="columns is-centered">
@@ -42,7 +48,7 @@ const NewCreatepost = (props) => {
               <form onSubmit={createPost} className="box">
                 <label className="label">Création du Post</label>
                 <div className="field mt-5">
-                  <label className="label">Modifier L'image</label>
+                  <label className="label">Ajouter une image </label>
                   <div className="controls mx-auto">
                     <div className="file has-name is-boxed mx-auto">
                       <input
@@ -63,7 +69,7 @@ const NewCreatepost = (props) => {
                     <input
                       type="text"
                       className="input"
-                      placeholder=""
+                      placeholder="Le nom du post"
                       value={nomposte}
                       onChange={(e) => setnomposte(e.target.value)}
                     />
@@ -74,7 +80,7 @@ const NewCreatepost = (props) => {
                   <div class="field">
                     <div class="control">
                         <textarea class="textarea" 
-                        placeholder="Normal textarea"
+                        placeholder="Mon post ici"
                         value={messagepost}
                         onChange={(e) => setmessagepost(e.target.value)}>
                         </textarea>

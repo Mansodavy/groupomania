@@ -21,12 +21,14 @@ class Post extends Component {
   changeCommentaire = (e) => {
     this.setState({ commentaire: e.target.value });
   };
+  
   getPosts() {
+    const user = JSON.parse(localStorage.getItem('user'));
     const postid = window.location.pathname.split("/")[2];
     axios
       .get("http://localhost:5000/api/posts/" + postid, {
         headers: {
-          'Authorization': `Bearer ${localStorage.token}` 
+          'Authorization': `Bearer ${user.token}` 
         }})
       .then((res) => {
         this.setState({ posts: res.data });
@@ -40,6 +42,7 @@ class Post extends Component {
   }
 
   render() {
+    const user = JSON.parse(localStorage.getItem('user'));
     let { posts } = this.state;
     let { isPost } = this.state;
     const commentpost = async (e) => {
@@ -52,7 +55,7 @@ class Post extends Component {
           postId: postid,
         }, {
           headers: {
-            'Authorization': `Bearer ${localStorage.token}` 
+            'Authorization': `Bearer ${user.token}` 
           }});
       } catch (error) {
         console.log(error)
@@ -61,7 +64,6 @@ class Post extends Component {
     if (isPost) {
       return (
         <section className="">
-          <Header />
           <br />
           <div class="columns is-multiline">
           <div class="column is-6-tablet"><div class="columns is-mobile ">
@@ -77,7 +79,7 @@ class Post extends Component {
                     <div class="media-left">
                       <figure class="image is-48x48">
                         <img
-                          src="https://bulma.io/images/placeholders/96x96.png"
+                          src={posts.user.imageUrl}
                           alt="Placeholder image"
                         />
                       </figure>

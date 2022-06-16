@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL = "http://localhost:5000/api/auth/";
+import authHeader from './authHeader';
+const API_URL_ADMIN = "http://localhost:5000/api/admin/";
+const API_URL = 'http://localhost:5000/api/auth/';
 class AuthService {
   login(email, password) {
     return axios
@@ -8,8 +10,9 @@ class AuthService {
         password: password,
       })
       .then(response => {
-        if (response.data.accessToken) {
+        if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
+          window.location.reload();
         }
         return response.data;
       });
@@ -17,11 +20,17 @@ class AuthService {
   logout() {
     localStorage.removeItem("user");
   }
-  register(username, email, password) {
+  countuser() {
+    return axios.get(API_URL_ADMIN + "countusers", { headers: authHeader() });
+  }
+  register(nom, prenom, email, password) {
     return axios.post(API_URL + "signup", {
-      username,
+      nom,
+      prenom,
       email,
-      password
+      password,
+      imageUrl: "http://localhost:5000/images/Avatar.jpg",
+      roles: ["user"]
     });
   }
   getCurrentUser() {
