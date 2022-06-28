@@ -27,6 +27,7 @@ class Postinfo extends Component {
       })
       .catch((err) => {
         console.log(err);
+        window.localStorage.removeItem('user');
         window.location.replace("/Connexion");
       });
   }
