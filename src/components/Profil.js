@@ -5,6 +5,7 @@ import AuthService from "../Middleware/authservice";
 import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
 import Header from "../View/Header";
+import UploadImages from "./UploadImage";
 const Register = () => {
   
   const [nom, setNom] = useState("");
@@ -19,43 +20,51 @@ const Register = () => {
     let path = `/Connexion`;
     navigate(path);
   };
-const deleteprofil = async (e) => {
-  e.preventDefault();
-  try {
-    await axios.delete("http://localhost:5000/api/user/",
-      {headers: {
-        'Authorization': `Bearer ${user.token}`
-      }}
-    );
-    
-    window.localStorage.clear();
-    alert("Votre compte a bien été supprimé");
-    navigate("/Connexion");
-  } catch (error) {
-    if (error.response) {
-      setMsg(error.response.data.msg);
-    }
-  }
-};
-const Editprofil = async (e) => {
-  e.preventDefault();
-  try {
-    await axios.put("http://localhost:5000/api/user/editprofil/", {
-      nom: nom,
-      prenom: prenom,
-    }, {
-      headers: {
-        'Authorization': `Bearer ${user.token}` 
-      }});
-  } catch (error) {
-    if (error.response) {
-      setMsg(error.response.data.msg);
-    }
-  }
-};
+  
+  const deleteprofil = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.delete("http://localhost:5000/api/user/", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    
+      window.localStorage.clear();
+      alert("Votre compte a bien été supprimé");
+      navigate("/Connexion");
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  };
 
+
+
+  const Editprofil = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        "http://localhost:5000/api/user/editprofil/",
+        {
+          nom: nom,
+          prenom: prenom,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  };
+
+  
   return (
     <section className="hero has-background is-fullheight is-fullwidth has-background-grey-light ">
       <div className="hero-body">
@@ -94,12 +103,21 @@ const Editprofil = async (e) => {
                   </button>
                 </div>
                 <div className="field mt-5">
-                  <button onClick={deleteprofil} className="button is-danger is-fullwidth">
+                  <button
+                    onClick={deleteprofil}
+                    className="button is-danger is-fullwidth"
+                  >
                     Supprimer le compte
                   </button>
                 </div>
               </form>
+              <div class=" hero has-background is-fullwidth hero-body ">
+                <label className="label">Modifier Image</label>
+            <UploadImages/>
             </div>
+            </div>
+          </div>
+          <div>
           </div>
         </div>
       </div>

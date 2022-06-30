@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import logo from '../images/icongroupomanianoir.png';
 import Footer from '../View/Footer';
 import AuthService from "../Middleware/authservice";
-
+import swal from 'sweetalert';
 
 const Login = () => {
     let navigate = useNavigate(); 
@@ -18,8 +18,16 @@ const Login = () => {
   const history = useNavigate();
   const userHasAuthenticated = null;
   let token = null
-  const Auth = async (e) => {
 
+
+  const Auth = async (e) => {
+    if (email === "") {
+      swal("Erreur !", "Merci de remplir le champ de l'email", "error")
+    }
+    if (password === "") {
+      swal("Erreur !", "Merci de remplir le champ du mot de passe", "error")
+    }
+    if (password === "" && email === "") {}
     e.preventDefault();
     try {
     const { data } = await axios.post("http://localhost:5000/api/auth/signin", {
@@ -32,12 +40,10 @@ const Login = () => {
           navigate("/Dashboard");
           window.location.reload();
         }
-        return response.data;
-      
       });
     } catch (error) {
-      if (error.responsecode == 404) {
-        alert("Utilisateur Inconnu");
+      if (error.response) {
+        setMsg(error.response.data.msg);
       }
     }
   };
