@@ -5,6 +5,8 @@ import "react-router-dom";
 import axios from "axios";
 import Footer from "../View/Footer";
 import Header from "../View/Header";
+import swal from 'sweetalert';
+
 
 class Post extends Component {
   constructor(props) {
@@ -22,22 +24,6 @@ class Post extends Component {
   changeCommentaire = (e) => {
     this.setState({ commentaire: e.target.value });
   };
-  getUserRank() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    axios
-      .get("http://localhost:5000/api/user/verifyrank/" + user.id, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        window.location.replace("/Connexion");
-      });
-  }
   getPost() {
     const user = JSON.parse(localStorage.getItem("user"));
     const postid = window.location.pathname.split("/")[2];
@@ -59,62 +45,104 @@ class Post extends Component {
   }
   render() {
     const handleCommentremove = (event) => {
-      axios
-        .delete(
-          "http://localhost:5000/api/posts/comments/" +
-            event.target.parentNode.id,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          window.location.reload();
-        });
-
+      swal({
+        title: "Etes-vous sûr ?",
+        text: "Vous ne pourrez pas récupérer ce commentaire !",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          axios
+          .delete(
+            "http://localhost:5000/api/posts/comments/" +
+              event.target.parentNode.id,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            window.location.reload();
+          });
+          swal("Le commentaire a été supprimée avec succés ", {
+            icon: "success",
+          });
+        } else {
+          swal("La suppression du commentaire a été annulée !");
+        }
+      });
     };
     const handlePostremove = (event) => {
-      axios
-        .delete(
-          "http://localhost:5000/api/posts/" +
-          posts.id,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          window.location.reload();
-        });
+      swal({
+        title: "Etes-vous sûr ?",
+        text: "Vous ne pourrez pas récupérer ce post !",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          axios
+          .delete(
+            "http://localhost:5000/api/posts/" +
+            posts.id,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+          });
+          swal("Le post a été supprimée avec succés !",{
+            icon: "success", 
+          }.then((value) => {
+            window.location.reload();
+          }));
+        } else {
+          swal("La suppression du post a été annulée !");
+        }
+      });
 
     };
     const user = JSON.parse(localStorage.getItem("user"));
     let { posts } = this.state;
     let { isPost } = this.state;
     const commentpost = async (e) => {
-      e.preventDefault();
-      try {
+      if (this.state.commentaire !== undefined) {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem("user"));
         const postid = window.location.pathname.split("/")[2];
-        await axios.post(
-          "http://localhost:5000/api/posts/" + postid + "/comments",
-          {
-            commentaire: this.state.commentaire,
-            postId: postid,
-          },
-          {
+        const data = {
+          commentaire: this.state.commentaire,
+          post_id: postid,
+        };
+        await axios
+          .post("http://localhost:5000/api/posts/"+ postid +"/comments", data, {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
+          })
+          .then((res) => {
+            console.log(res);
+            swal("Bien jouer!", "Tu a postée un commentaire", "success")
+            .then((value) => {
+              window.location.reload();
+            });
           }
           )
-        ;
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
+          .catch((err) => {
+            console.log(err);
+            window.location.replace("/Dashboard");
+          }
+          );
+      } else {
+        swal("Veuillez remplir le commentaire");
       }
       
     };
@@ -168,7 +196,7 @@ class Post extends Component {
                                 user.roles === ["ROLE_ADMIN"]) && (
                                 <div className="post-control ">
                                   <button
-                                    class="button is-danger" id={posts.id}
+                                    class="button is-danger ml-3" id={posts.id}
                                     onClick={handlePostremove}
                                   >
                                     Supprimer le poste
