@@ -1,6 +1,5 @@
 import axios from "axios";
 import authHeader from './authHeader';
-const API_URL_ADMIN = "http://localhost:5000/api/admin/";
 const API_URL = 'http://localhost:5000/api/auth/';
 class AuthService {
   login(email, password) {
@@ -19,9 +18,6 @@ class AuthService {
   }
   logout() {
     localStorage.removeItem("user");
-  }
-  countuser() {
-    return axios.get(API_URL_ADMIN + "countusers", { headers: authHeader() });
   }
   register(nom, prenom, email, password) {
     return axios.post(API_URL + "signup", {

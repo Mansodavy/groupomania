@@ -8,6 +8,7 @@ import AuthService from "../Middleware/authservice";
 import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
 
+
 const required = (value) => {
   if (!value) {
     return (
@@ -48,8 +49,8 @@ const vprenom = (value) => {
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
-      <div class="notification is-danger alert-danger">
-  <button class="delete"></button>
+      <div className="notification is-danger alert-danger">
+  <button className="delete"></button>
   Le mot de passe doit comporter entre  <strong>6 et 40</strong>6 et 40 caractères..
 </div>
     );
@@ -135,7 +136,7 @@ export default class Registrations extends Component {
      window.location.href = "/Dashboard";
     }
     return (
-      <section className="hero has-background-grey-light is-fullheight is-fullwidth">
+      <section className="hero has-background-grey-lighter is-fullheight is-fullwidth">
         <nav
           className="navbar ml-auto mr-auto"
           role="navigation"
@@ -245,7 +246,7 @@ export default class Registrations extends Component {
                       pathname: "/Connexion",
                     }}
                   >
-                    <button className="button is-info is-fullwidth">
+                    <button className="button is-link is-fullwidth">
                       Déjà un compte ?
                     </button>
                   </Link>

@@ -6,7 +6,7 @@ import authHeader from "../Middleware/authHeader";
 import swal from "sweetalert";
 const API_URL = 'http://localhost:5000/api/';
 
-const NewCreatepost = (props) => {
+const EditPost = (props) => {
 	const [newPic, setNewPic] = useState();
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -14,32 +14,35 @@ const NewCreatepost = (props) => {
   const [nomposte, setnomposte] = useState("");
 
 
-	const createPost = (e) => {
+	const editPosts = (e) => {
 		e.preventDefault();
 
 		const Head = new Headers({
 			Authorization: 'Bearer ' + localStorage.getItem('token'),
 		});
+    const postid = window.location.pathname.split("/")[3];
+    console.log(postid);
 		const data = new FormData();
 		data.append('image', newPic);
     data.append('messagepost', messagepost);
     data.append('nomposte', nomposte);
-		console.log(data);
-    if (newPic === undefined || messagepost === "" || nomposte === "") {
-      swal  ("Veuillez remplir tous les champs et une image", "", "error");
-    }  
-    else{
-		fetch(API_URL + 'posts', {
-			method: 'POST',
+		console.log(newPic); 
+    if (messagepost !== "" && nomposte !== "" && newPic !== undefined) {
+		fetch(API_URL + 'posts/edit/' + postid, {
+			method: 'PUT',
       headers :  authHeader (),
 			body: data,
-		}).then((response) => console.log(response));
-    swal("Bien jouer!", "Ton poste a été postée", "success").then(
-      (value) => {
-        window.location.replace("/Dashboard");
-      }
+		}).then((response) => console.log(response)
+    ).then(() => { 
+      swal("Post modifié avec succès", "", "success");
+      window.location.replace("/posts/" + postid);
+    }
+    ).catch(() => {
+      swal("Erreur lors de la modification du post", "", "error");
+    }
     );
-		props.onCancel();
+  } else {
+    swal("Veuillez remplir tous les champs", "", "error");
   }
 	};
     
@@ -50,12 +53,14 @@ const NewCreatepost = (props) => {
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-4-desktop">
-              <form onSubmit={createPost} className="box">
-                <label className="label has-text-centered">Création du Post</label>
-                <div className="field mt-5">
-                  <label className="label has-text-centered">Ajouter une image 
-                  <div className="controls mx-auto">
-                    <div className="file has-name is-boxed mx-auto">
+              <form onSubmit={editPosts} className="box">
+                <label className="label has-text-centered	">Modification du Post</label>
+
+                  <label className="label has-text-centered	">Modification de l'image </label>
+                  
+                  <div className="controls ">
+                    <div className="file has-name is-boxed ">
+                      
                       <input
                         className="form-input"
                         type="file"
@@ -66,12 +71,10 @@ const NewCreatepost = (props) => {
                         }}
                       />
                     </div>
-                    
                   </div>
-                  </label>
-                </div>
+
                 <div className="field mt-5">
-                  <label className="label has-text-centered">Nom de post</label>
+                  <label className="label has-text-centered	">Nom de post</label>
                   <div className="controls">
                     <input
                       type="text"
@@ -83,7 +86,7 @@ const NewCreatepost = (props) => {
                   </div>
                 </div>
                 <div className="field mt-5">
-                  <label className="label has-text-centered">Texte du post</label>
+                  <label className="label has-text-centered	">Texte du post</label>
                   <div className="field">
                     <div className="control">
                         <textarea className="textarea" 
@@ -114,4 +117,4 @@ const NewCreatepost = (props) => {
   
 };
 
-export default NewCreatepost;
+export default EditPost;

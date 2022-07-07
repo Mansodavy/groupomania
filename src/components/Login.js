@@ -5,6 +5,8 @@ import logo from '../images/icongroupomanianoir.png';
 import Footer from '../View/Footer';
 import AuthService from "../Middleware/authservice";
 import swal from 'sweetalert';
+const API_URL = 'http://localhost:5000/api/';
+
 
 const Login = () => {
     let navigate = useNavigate(); 
@@ -27,10 +29,12 @@ const Login = () => {
     if (password === "") {
       swal("Erreur !", "Merci de remplir le champ du mot de passe", "error")
     }
-    if (password === "" && email === "") {}
     e.preventDefault();
     try {
-    const { data } = await axios.post("http://localhost:5000/api/auth/signin", {
+      if (password === "" && email === "") {
+        swal("Erreur !", "Merci de remplir les champs", "error")
+      } else{
+    const { data } = await axios.post(API_URL +"auth/signin", {
         email: email,
         password: password,
       })      
@@ -40,7 +44,8 @@ const Login = () => {
           navigate("/Dashboard");
           window.location.reload();
         }
-      });
+      
+      });}
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -53,7 +58,7 @@ const Login = () => {
   } 
   
   return (
-    <section className="hero has-background-grey-light is-fullheight is-mobile">
+    <section className="hero has-background-grey-lighter is-fullheight is-mobile">
       <nav className="navbar ml-auto mr-auto" role="navigation" aria-label="main navigation">
       </nav>
           <div className="columns is-centered is-mobile">
@@ -96,7 +101,7 @@ const Login = () => {
                   </button>
                   
                                                       
-                  <button className="button is-info is-fullwidth" onClick={routeChange}>
+                  <button className="button is-link is-fullwidth" onClick={routeChange}>
                     Inscription
                   </button>
                 </div>
