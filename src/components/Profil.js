@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import AuthService from "../Middleware/authservice";
 import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
-import Header from "../View/Header";
-import UploadImages from "./UploadImage";
+import EditProfile from "./editProfiles";
+const API_URL = 'http://localhost:5000/api/';
+
 const Register = () => {
   
   const [nom, setNom] = useState("");
@@ -24,7 +26,7 @@ const Register = () => {
   const deleteprofil = async (e) => {
     e.preventDefault();
     try {
-      await axios.delete("http://localhost:5000/api/user/", {
+      await axios.delete( API_URL + "user/", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -44,24 +46,49 @@ const Register = () => {
 
   const Editprofil = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(
-        "http://localhost:5000/api/user/editprofil/",
-        {
-          nom: nom,
-          prenom: prenom,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
+    swal({
+      
+      title: "Etes-vous sûr ?",
+      text: "Vous voulez changer votre image de profil ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        if (nom === "" || prenom === "") {
+          swal("Erreur !", "Merci de remplir tout les champs", "error");
+        } else {
+        axios.put(
+          "http://localhost:5000/api/user/",
+          {
+            nom: nom,
+            prenom: prenom,
           },
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+            
+          }
+        
+        ).then((response) => console.log(response)
+        ).then(() => {
+          swal("Profil modifiée avec succès", "", "success");
+          window.location.replace("/Dashboard");
+
         }
-      );
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
+        ).catch(() => {
+          swal("Erreur lors de la modification du Profil", "", "error");
+        }
+        );
+        swal("Le Profil été modifiée avec succés ", {
+          icon: "success",
+        });}
+      } else {
+        swal("La modification du profil a été annulée");
       }
-    }
+
+    });
   };
 
   
@@ -70,11 +97,12 @@ const Register = () => {
       <div className="hero-body">
         <div className="container">
           <div className="columns is-centered">
-            <div className="column is-4-desktop">
+            <div className="column is-6-desktop">
               <form onSubmit={Editprofil} className="box">
-                <label className="label">Modifier le profil</label>
+                <label className="label has-text-centered">Modifier le profil</label>
+
                 <div className="field mt-5">
-                  <label className="label">Nom</label>
+                  <label className="label has-text-centered">Nom</label>
                   <div className="controls">
                     <input
                       type="text"
@@ -86,7 +114,7 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="field mt-5">
-                  <label className="label">Prénom</label>
+                  <label className="label has-text-centered">Prénom</label>
                   <div className="controls">
                     <input
                       type="text"
@@ -105,22 +133,22 @@ const Register = () => {
                 <div className="field mt-5">
                   <button
                     onClick={deleteprofil}
-                    className="button is-danger is-fullwidth"
+                    className="button is-link is-fullwidth"
                   >
                     Supprimer le compte
                   </button>
                 </div>
               </form>
-              <div class=" hero has-background is-fullwidth hero-body ">
-                <label className="label">Modifier Image</label>
-            <UploadImages/>
+              <EditProfile/>
+                
             </div>
             </div>
           </div>
           <div>
           </div>
         </div>
-      </div>
+
+        
       <footer>
         <Footer />
       </footer>
