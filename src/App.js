@@ -96,7 +96,7 @@ class App extends Component {
                         {currentUser ? (
                           <div>
                             <a className="navbar-item" href="/Profil">
-                              Profil : {currentUser.nom} {currentUser.prenom}
+                              Profil 
                             </a>
                             <a
                               className="navbar-item"

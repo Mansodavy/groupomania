@@ -27,7 +27,7 @@ const EditPost = (props) => {
     data.append('messagepost', messagepost);
     data.append('nomposte', nomposte);
 		console.log(newPic); 
-    if (messagepost !== "" && nomposte !== "" && newPic !== undefined) {
+    if (messagepost !== "" && nomposte !== "") {
 		fetch(API_URL + 'posts/edit/' + postid, {
 			method: 'PUT',
       headers :  authHeader (),
@@ -99,7 +99,7 @@ const EditPost = (props) => {
                 </div>
                 <div className="field mt-5">
                   <button  type="submit" className="button is-link is-fullwidth">
-                    Crée le poste
+                  Modifier le poste
                   </button>
                 </div>
               </form>
