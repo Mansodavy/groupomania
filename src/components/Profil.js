@@ -49,7 +49,7 @@ const Register = () => {
     swal({
       
       title: "Etes-vous sûr ?",
-      text: "Vous voulez changer votre image de profil ?",
+      text: "Vous voulez changer les informations de votre profil ?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -81,9 +81,7 @@ const Register = () => {
           swal("Erreur lors de la modification du Profil", "", "error");
         }
         );
-        swal("Le Profil été modifiée avec succés ", {
-          icon: "success",
-        });}
+  }
       } else {
         swal("La modification du profil a été annulée");
       }

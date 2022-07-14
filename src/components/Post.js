@@ -123,7 +123,7 @@ class Post extends Component {
         };
         await axios
           .post(
-            "http://localhost:5000/api/posts/comments" + postid ,
+            "http://localhost:5000/api/posts/comments/" + postid ,
             data,
             {
               headers: {

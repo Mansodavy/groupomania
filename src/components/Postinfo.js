@@ -37,7 +37,15 @@ class Postinfo extends Component {
   render() {
     let { posts } = this.state;
     return (
-      <div className=" hero has-background is-fullheight is-fullwidth has-background-grey-light ">
+      <div className="hero has-background-grey-light is-fullheight"> 
+      <div className=" hero has-background-grey-light">
+              <a href="/CreatePost">
+                <button className="button is-link is-fullwidth ">
+                  Crée un poste
+                </button>
+              </a>
+              <br />
+      <div >
         {posts.length > 0 || posts.length != undefined ? (
           posts.map((post) => {
             return (
@@ -55,64 +63,64 @@ class Postinfo extends Component {
                           <p className="image is-64x64">
                             <img width={100} height={100} alt={post.nomposte} src={post.user.imageUrl} />
                           </p>
-                          <strong>{post.user.nom} </strong>
-                          <br />
-                          <strong>{post.user.prenom} </strong>
+                          <p className="has-text-centered	">crée par</p>
+                          <p className="has-text-centered	"><strong>{post.user.nom} </strong></p>
+                          <p className="has-text-centered	"><strong >{post.user.prenom} </strong></p>
                         </figure>
                         <div className="media-content">
                           <div className="content">
-                            <div className="columns is-gapless is-mobile mb-0">
-                              <h3 className="title text-xl track-visited">
+                              <h1 className="title">
+                                <p className="has-text-centered">
                                 {post.nomposte}
-                              </h3>
-                            </div>
-                            <p className="tagline">
+                                </p>
+                              </h1>
+                            <p className="tagline has-text-centered"	>
                             {post.messagepost}
                             </p>
                           </div>
-                          <nav className="level is-mobile">
-                            <div className="level-left">
-                            </div>
-                          </nav>
+                          
                         </div>
+                        <br/>
                       </article>
-                      <br />
+                      {( post.comments.length > 0 ) ? (
+                        post.comments.map((commentaire) => {
+                          return (
+                            <div className="columns is-mobile mb-0">
+                              <div className="column is-fullwidth">
+                                <div className=" card is-shady my-3 ml-3 mr-3">
+                                  <div className="card-content">
+                                    <div className="content">
+                                      <p className="has-text-centered	 ">{commentaire.commentaire}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                        )
+                       ) : ( <div> 
+                        <div className="columns is-mobile mb-0">
+                          <div className="column is-fullwidth">
+                            <div className=" card is-shady my-3 ml-3 mr-3">
+                              <div className="card-content">
+                                <div className="content">
+                                  <p  className="has-text-centered	 ">Aucun commentaire</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    
+                         </div> )}
                     </div>
                   </div>
                 </Link>
-
-                <br />
-                <br />
-                <section>
-                  <div className="columns is-mobile   ">
-                    <div className="column ml-6 mr-6 is-clickable card">
-                      <div>
-                        <div>
-                          <br />
-                          <a href="/CreatePost">
-                            <button className="button is-link is-fullwidth ">
-                              Crée un poste
-                            </button>
-                          </a>
-                          <br />
-                          <a href="/Profil">
-                            <button className="button is-warning is-fullwidth ">
-                              Profile
-                            </button>
-                          </a>
-
-                        </div>
-                      </div>
-                      <br />
-                    </div>
-                  </div>
-
-                  <br />
-                  <br />
-                </section>
+                <br/>
               </section>
             );
           })
+          
         ) : (
           <div>
             <br />
@@ -120,12 +128,6 @@ class Postinfo extends Component {
               <p className="  has-text-centered">
                 Il n'y a pas de postes pour le moment
               </p>
-              <br />
-              <a href="/CreatePost">
-                <button className="button is-link is-fullwidth ">
-                  Crée un poste
-                </button>
-              </a>
               <br />
               <a href="/Profil">
                 <button className="button is-warning is-fullwidth ">
@@ -136,6 +138,8 @@ class Postinfo extends Component {
             <br />
           </div>
         )}
+      </div>
+      </div>
       </div>
     );
   }
