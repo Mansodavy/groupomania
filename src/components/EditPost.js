@@ -5,15 +5,15 @@ import Footer from "../View/Footer";
 import authHeader from "../Middleware/authHeader";
 import swal from "sweetalert";
 const API_URL = 'http://localhost:5000/api/';
-
 const EditPost = (props) => {
+    // On définit le state de notre composant EditPost pour stocker les données du formulaire
+  // we define the state of our EditPost component to store the data of the form
 	const [newPic, setNewPic] = useState();
-  const [nom, setNom] = useState("");
-  const [prenom, setPrenom] = useState("");
   const [messagepost, setmessagepost] = useState("");
   const [nomposte, setnomposte] = useState("");
 
-
+  // Fonction pour Modifier un post et redirection vers la page du post édité
+  // function to edit a post and redirect to the edited post page
 	const editPosts = (e) => {
 		e.preventDefault();
 
@@ -45,7 +45,8 @@ const EditPost = (props) => {
     swal("Veuillez remplir tous les champs", "", "error");
   }
 	};
-    
+   // Rendu du formulaire de modification du post
+  // Rendering of the form to edit the post
   return (
       
     <section className="hero has-background is-fullheight is-fullwidth has-background-grey-light ">

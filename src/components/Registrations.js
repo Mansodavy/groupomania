@@ -8,7 +8,8 @@ import AuthService from "../Middleware/authservice";
 import Footer from "../View/Footer";
 import logo from "../images/icongroupomanianoir.png";
 
-
+// Validation du formulaire vérification que les champs sont remplis
+// Validate the form to check that all fields are filled
 const required = (value) => {
   if (!value) {
     return (
@@ -19,6 +20,8 @@ const required = (value) => {
   }
 };
 
+// Validation du formulaire vérification que l'email est valide
+// Validate the form to check that the email is valid
 const email = (value) => {
   if (!isEmail(value)) {
     return (
@@ -28,6 +31,9 @@ const email = (value) => {
     );
   }
 };
+
+// Validation du formulaire vérification que le nom est valide
+// Validate the form to check that the last name is valid
 const vnom = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
@@ -37,6 +43,8 @@ const vnom = (value) => {
     );
   }
 };
+// Validation du formulaire vérification que le prenom est valide
+// Validate the form to check that the first name is valid
 const vprenom = (value) => {
   if (value.length < 1 || value.length > 20) {
     return (
@@ -46,6 +54,9 @@ const vprenom = (value) => {
     );
   }
 };
+
+// Validation du formulaire vérification que le mot de passe est valide 
+// Validate the form to check that the password is valid
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
@@ -57,7 +68,8 @@ const vpassword = (value) => {
   }
 };
 export default class Registrations extends Component {
-  
+// Constructeur de la classe Registrations on l'ont bind les fonctions pour pouvoir les utiliser dans le code  
+// Constructor of the class Registrations on we bind the functions to use them in the code  
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
@@ -74,27 +86,38 @@ export default class Registrations extends Component {
       message: "",
     };
   }
-  
+  // Fonction qui permet de récupérer les données du formulaire Nom et de les stocker dans le state
+  // Function that allows to get the data from the form Last Name and store it in the state
   onChangeNom(e) {
     this.setState({
       nom: e.target.value,
     });
   }
+  // Fonction qui permet de récupérer les données du formulaire Prenom et de les stocker dans le state
+  // Function that allows to get the data from the form First Name and store it in the state
   onChangePrenom(e) {
     this.setState({
       prenom: e.target.value,
     });
   }
+
+  // Fonction qui permet de récupérer les données du formulaire Email et de les stocker dans le state
+  // Function that allows to get the data from the form Email and store it in the state
   onChangeEmail(e) {
     this.setState({
       email: e.target.value,
     });
   }
+
+    // Fonction qui permet de récupérer les données du formulaire Mot de passe et de les stocker dans le state
+  // Function that allows to get the data from the form Password and store it in the state
   onChangePassword(e) {
     this.setState({
       password: e.target.value,
     });
   }
+  // Fonction qui permet de handle le formulaire et de vérifier que tous les champs sont remplis
+  // Function that allows to handle the form and check that all fields are filled
   handleRegister(e) {
     e.preventDefault();
     this.setState({
@@ -130,6 +153,8 @@ export default class Registrations extends Component {
       );
     }
   }
+  // Rendu du formulaire de création de compte
+  // Rendering of the form to create a account
   render() {
     const user = AuthService.getCurrentUser();
     if (user) {

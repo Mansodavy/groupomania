@@ -6,10 +6,13 @@ import authHeader from "../Middleware/authHeader";
 import swal from "sweetalert";
 const API_URL = 'http://localhost:5000/api/';
 
-const EditProfile = (props) => {
+const EditImage = (props) => {
+  // On définit le state de notre composant EditProfile pour stocker les données du formulaire
+  // we define the state of our EditProfile component to store the data of the form
 	const [newPic, setNewPic] = useState();
 
-
+  // Fonction pour Modifier l'image du profil et redirection vers le Dashboard
+  // Function to edit the profile image and redirect to the Dashboard
 	const EditProfiles = async (e) => {
     e.preventDefault();
 
@@ -49,7 +52,8 @@ const EditProfile = (props) => {
       }
     });
                           };   
-
+//Render du formulaire de modification de l'image de profil
+//Render the form to edit the profile image
   return (
       
             <div className="column is-12-desktop">
@@ -84,4 +88,4 @@ const EditProfile = (props) => {
   
 };
 
-export default EditProfile;
+export default EditImage;
