@@ -10,18 +10,24 @@ const API_URL = 'http://localhost:5000/api/';
 
 
 class Post extends Component {
+
   constructor(props) {
     super(props);
     this.state = { isPost: false };
   }
-
+  // On defini le state pour stocker les données du  post
+  // we define the state to store the data of the post
   state = {
     posts: [],
     commentaire: "",
   };
+  // On appelle la fonction getPost()
+  // we call the function getPost()
   componentDidMount() {
     this.getPost();
   }
+  // On crée une fonction pour récupérer les commentaires
+  // we create a function to get the comments
   changeCommentaire = (e) => {
     this.setState({ commentaire: e.target.value });
   };
@@ -44,7 +50,11 @@ class Post extends Component {
         window.location.replace("/Connexion");
       });
   }
+  // render des post et des commentaires associés au post 
+  // render of post and comments associated to the post
   render() {
+    // Fonction de suppression de Commentaire avec swal pour confirmation
+    // Function to delete a comment with swal for confirmation
     const handleCommentremove = (event) => {
       swal({
         title: "Etes-vous sûr ?",
@@ -77,7 +87,8 @@ class Post extends Component {
       });
     };
 
-
+    // Fonction de suppression du post avec swal pour confirmation
+    // Function to delete of post with swal for confirmation
     const handlePostremove = (event) => {
       swal({
         title: "Etes-vous sûr ?",
@@ -109,9 +120,15 @@ class Post extends Component {
         }
       });
     };
+    // on parse le token pour récupérer les données de l'utilisateur
+    // we parse the token to get the data of the user
     const user = JSON.parse(localStorage.getItem("user"));
+    // definition du state pour récupérer les données du post
+    // definition of state to get the data of the post
     let { posts } = this.state;
     let { isPost } = this.state;
+    // fonction pour ajouter un commentaire
+    // function to add a comment
     const commentpost = async (e) => {
       if (this.state.commentaire !== undefined) {
         e.preventDefault();
@@ -147,6 +164,8 @@ class Post extends Component {
         swal("Veuillez remplir le commentaire");
       }
     };
+    // Si il y a un post on affiche le post et les commentaires associés 
+    // if there is a post we display the post and the comments associated
     if (isPost) {
       return (
         <section className="">
