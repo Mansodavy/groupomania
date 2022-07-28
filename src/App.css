@@ -142,4 +142,9 @@ select::-ms-expand {
   color: #F39C12;
 }
 
-
+@media screen and (max-width: 600px) {
+  .navbar-end {
+    display: block;
+  }
+}
+ 

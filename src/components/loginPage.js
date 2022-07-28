@@ -57,7 +57,7 @@ const Login = () => {
       });}
     } catch (error) {
       if (error.response) {
-        setMsg(error.response.data.msg);
+        swal("Erreur !", "Email ou mot de passe incorrect", "error")
       }
     }
   };
@@ -80,7 +80,7 @@ const Login = () => {
                 <p className="has-text-centered">{msg}</p>
                 <div className="field">
                                                       
-                  <label className="label">Email</label>
+                  <label className="label">Email
                   <div className="controls">
                                                             
                     <input
@@ -91,10 +91,12 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
+                  </label>
                 </div>
+                
                 <div className="field">
                                                       
-                  <label className="label">Mot de passe</label>
+                  <label className="label">Mot de passe
                                                       
                   <div className="controls">
                     <input
@@ -106,6 +108,7 @@ const Login = () => {
                     />
                                                         
                   </div>
+                  </label>
                 </div>
                 <div className="field">
                   <button className="button is-link is-fullwidth" onClick={Auth}>

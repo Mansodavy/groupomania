@@ -44,7 +44,7 @@ const EditImage = (props) => {
           swal("Erreur lors de la modification de l'image", "", "error");
         }
         );
-        swal("L'image a été modifiée avec succés ", {
+        swal("L'image a été modifiée avec succès ", {
           icon: "success",
         });}
       } else {
@@ -58,23 +58,31 @@ const EditImage = (props) => {
       
             <div className="column is-12-desktop">
               <form onSubmit={EditProfiles} className="box">
-                  <label className="label has-text-centered	">Modification de l'image du profil
                   
-                  <div className="controls ">
-                    <div className="file has-name is-boxed ">
-                      
-                      <input
-                        className="form-input"
-                        type="file"
-                        name="imageUrl"
-                        accept=".jpg, .jpeg, .png, .gif"
-                        onChange={(e) => {
-                          setNewPic(e.target.files[0]);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  </label>
+
+                  
+                  <div className="file is-centered is-boxed  ">
+
+                  <label className="label has-text-centered	">Modification de l'image du profil
+                      <div>
+                        <br/>
+                          <input className="form-input file-input" type="file"  name="imageUrl"
+                          accept=".jpg, .jpeg, .png, .gif"
+                          onChange={(e) => {
+                            setNewPic(e.target.files[0]);
+                          }}/>
+                          <span className="file-cta">
+                            <span className="file-icon">
+                              <i className="fas fa-upload" />
+                            </span>
+                            <span className="file-label">
+                              
+                            {newPic ? newPic.name : "Aucun fichier sélectionné"}
+                            </span>
+                          </span>
+                          </div>
+                    </label>
+                      </div>
                 <div className="field mt-5">
                   <button  type="submit" className="button is-link is-fullwidth">
                     Modifier l'image

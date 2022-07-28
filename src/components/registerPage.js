@@ -38,7 +38,7 @@ const vnom = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
-        Le nom d'utilisateur doit comporter entre 3 et 20 caractères.
+        Le nom doit comporter entre 3 et 20 caractères.
       </div>
     );
   }
