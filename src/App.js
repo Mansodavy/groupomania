@@ -1,14 +1,14 @@
 import "./App.css";
-import Login from "./components/Login";
+import Login from "./components/loginPage";
 import React, { Component } from "react";
-import Register from "./components/Registrations";
+import Register from "./components/registerPage";
 import AuthService from "./Middleware/authservice";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Dashboard from "./View/Dashboard";
-import Profil from "./components/Profil";
-import Post from "./components/Post";
-import PostEdit from "./components/EditPost";
-import CreatePosts from "./components/CreatePosts";
+import Profil from "./components/profil";
+import Post from "./components/onePost";
+import PostEdit from "./components/editPost";
+import CreatePosts from "./components/createPost";
 import logo from "./images/icongroupomanianoir.png";
 
 class App extends Component {
@@ -33,7 +33,15 @@ class App extends Component {
   }
   render() {
     
-    
+    function Burger (props) {
+      var burger = document.querySelector('.burger');
+      var nav = document.querySelector('#'+burger.dataset.target);
+
+      burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+      });
+    } 
     const { currentUser, } = this.state;
     return (
       <div>
@@ -43,8 +51,8 @@ class App extends Component {
               {currentUser ? (
                 <Link to={{ pathname: "/Dashboard" }} className="navbar-brand">
                   <img
-                    className=".container-image ml-5 mr-5 mt-2"
-                    width={100} height={100}
+                    className=".container-image ml-6 mr-5 mt-2"
+                    width={150} height={100}
                     src={logo}
                     alt="Logo Groupomania"
                   />
@@ -65,41 +73,24 @@ class App extends Component {
 
 
   
-</div>
-
-            <div  className="navbar-menu ">
-              <div className="navbar-start"></div>
-
+</div>        
               <div className="navbar-end">
                 <div className="navbar-item">
-                  <div className="field is-grouped">
-                    <div className="navbar-item has-dropdown is-hoverable ">
-                      <a className="navbar-link mr-6">Menu</a>
-                      <div className="navbar-dropdown is-boxed mr-10">
-                        {currentUser && (
-                          <div>
-                            <a
-                              className="navbar-item"
-                              href="http://localhost:3000/Dashboard"
-                            >
-                              Liste des postes
-                            </a>
+                    <div className="navbar-item ">
+                    <div className="">
 
-                            <a
-                              className="navbar-item"
-                              href="http://localhost:3000/CreatePost"
-                            >
-                              Crée un post
-                            </a>
-                          </div>
-                        )}
                         {currentUser ? (
+                          
                           <div>
-                            <a className="navbar-item" href="/Profil">
+                                                      <div>
+                          </div>
+                            <p className="control">
+                            <a className="navbar-item button is-warning mt-2 mr-3 ml-3 mb-3" href="/Profil">
                               Profil 
                             </a>
+                            </p>
                             <a
-                              className="navbar-item"
+                              className="navbar-item button is-black mr-3 ml-3 mb-3"
                               href="/Connexion"
                               onClick={this.logOut}
                             >
@@ -108,27 +99,17 @@ class App extends Component {
                           </div>
                         ) : (
                           <div>
-                            <a
-                              className="navbar-item"
-                              href="http://localhost:3000/Connexion"
-                            >
-                              Connexion
-                            </a>
-                            <a
-                              className="navbar-item"
-                              href="http://localhost:3000/Inscription"
-                            >
-                              Inscription
-                            </a>
+                            
                           </div>
                         )}
-                      </div>
+                        </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
           </nav>
+          
+         
+
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/Connexion" element={<Login />} />

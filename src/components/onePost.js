@@ -42,7 +42,6 @@ class Post extends Component {
       })
       .then((res) => {
         this.setState({ posts: res.data });
-        console.log(res.data);
         this.setState({ isPost: true });
       })
       .catch((err) => {
@@ -75,7 +74,6 @@ class Post extends Component {
               }
             )
             .then((res) => {
-              console.log(res);
               window.location.reload();
             });
           swal("Le commentaire a été supprimée avec succés ", {
@@ -105,7 +103,6 @@ class Post extends Component {
               },
             })
             .then((res) => {
-              console.log(res);
             });
           swal(
             "Le post a été supprimée avec succés !",
@@ -149,7 +146,6 @@ class Post extends Component {
             }
           )
           .then((res) => {
-            console.log(res);
             swal("Bien jouer!", "Tu a postée un commentaire", "success").then(
               (value) => {
                 window.location.reload();
@@ -168,13 +164,31 @@ class Post extends Component {
     // if there is a post we display the post and the comments associated
     if (isPost) {
       return (
-        <section className="">
+        <section key={posts.id} className="has-background-grey-light">
+          <div className="container ">
+          <br />
+
+<a href="/Dashboard">
+  <button
+    className="
+       button is-link is-fullwidth  "
+  >
+    Liste des postes
+  </button>
+</a>
+<br />
+</div>
+
           <div className="columns">
+            
           <div className="column is-half">
+            
             <div className="card is-shady my-3 ml-3 mr-3">
               <div className="card-image">
+                
                 <figure className="image is-4by3">
                   <img
+                  width={500}
                     src={posts.imageUrl}
                     alt="Placeholder image"
                     className="modal-button"
@@ -186,8 +200,12 @@ class Post extends Component {
                 <div className="content">
                   <h4>{posts.nomposte}</h4>
                   <p>{posts.messagepost}</p>
-                  <div className="field">
+                  <br/>
+
+                  <div className="field" >
+                  <label className="label  " >  Ajoutée un commentaire
                     <p className="control">
+                      <br/>
                       <textarea
                         className="textarea"
                         placeholder="Add a comment..."
@@ -195,6 +213,7 @@ class Post extends Component {
                         onChange={this.changeCommentaire}
                       ></textarea>
                     </p>
+                    </label>
                   </div>
                   <span
                     onClick={commentpost} className="button is-link modal-button"
@@ -207,7 +226,7 @@ class Post extends Component {
                     <div className="field">
                   <span
                     id={posts.id}
-                    onClick={handlePostremove} className="button is-danger modal-button  mt-3 mr-3" 
+                    onClick={handlePostremove} className="button is-black modal-button  mt-3 mr-3" 
                     data-target="modal-image2"
                   >
                     Supprimer le poste
@@ -233,10 +252,8 @@ class Post extends Component {
               <article>
                 {posts.comments ? (
                   posts.comments.map((comment) => {
-                    console.log(comment.id);
-                    console.log(user.roles[0]);
                     return (
-                      <section id={comment.id}>
+                      <section key={comment.id} id={comment.id}>
                         <div className="column is-12 ">
                           <div>
                             <div className="columns is-mobile">
@@ -246,7 +263,7 @@ class Post extends Component {
                                     <div className="media-content">
                                       <div className="content">
                                         <h4>
-                                          {posts.user.nom} {posts.user.prenom}
+                                          {comment.user.nom} {comment.user.prenom}
                                         </h4>
                                         <p>{comment.commentaire}</p>
                                       </div>
@@ -259,7 +276,7 @@ class Post extends Component {
                                           id={comment.id}
                                         >
                                           <button
-                                            className="button is-danger"
+                                            className="button is-black"
                                             onClick={handleCommentremove}
                                           >
                                             Supprimer le commentaire

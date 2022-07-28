@@ -107,15 +107,19 @@ const Register = () => {
   
   return (
     <section className="hero has-background is-fullheight is-fullwidth has-background-grey-light ">
+      
       <div className="hero-body">
+        
         <div className="container">
+          
           <div className="columns is-centered">
+            
             <div className="column is-6-desktop">
               <form onSubmit={Editprofil} className="box">
                 <label className="label has-text-centered">Modifier le profil</label>
 
                 <div className="field mt-5">
-                  <label className="label has-text-centered">Nom</label>
+                  <label className="label has-text-centered">Nom
                   <div className="controls">
                     <input
                       type="text"
@@ -125,9 +129,10 @@ const Register = () => {
                       onChange={(e) => setNom(e.target.value)}
                     />
                   </div>
+                  </label>
                 </div>
                 <div className="field mt-5">
-                  <label className="label has-text-centered">Prénom</label>
+                  <label className="label has-text-centered">Prénom
                   <div className="controls">
                     <input
                       type="text"
@@ -136,7 +141,9 @@ const Register = () => {
                       value={prenom}
                       onChange={(e) => setPrenom(e.target.value)}
                     />
+                    
                   </div>
+                  </label>
                 </div>
                 <div className="field mt-5">
                   <button className="button is-link is-fullwidth">
@@ -146,10 +153,17 @@ const Register = () => {
                 <div className="field mt-5">
                   <button
                     onClick={deleteprofil}
-                    className="button is-link is-fullwidth"
+                    className="button is-black is-fullwidth"
                   >
                     Supprimer le compte
                   </button>
+                  <br/>
+                  <a
+                              className=" button is-warning is-fullwidth"
+                              href="http://localhost:3000/Dashboard"
+                            >
+                              Liste des postes
+                            </a>
                 </div>
               </form>
               {/* Rendu du composant EditImage */}
